@@ -1,15 +1,17 @@
-version: '3'
+version: "3.8"
+
 services:
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
     container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./alert.rules:/etc/prometheus/alert.rules:ro
+
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
@@ -17,8 +19,15 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
+      - simple_app
+    volumes:
+      - grafana_data:/var/lib/grafana
+
   simple_app:
     build: ./simple_app
     container_name: simple_app
     ports:
       - "8080:8080"
+
+volumes:
+  grafana_data:
