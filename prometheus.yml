@@ -5,3 +5,11 @@ scrape_configs:
   - job_name: 'simple_app'
     static_configs:
       - targets: ['simple_app:8080']
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']
+
+rule_files:
+  - "alert.rules"

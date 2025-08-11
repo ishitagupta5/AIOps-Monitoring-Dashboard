@@ -1,0 +1,20 @@
+groups:
+  - name: example
+    rules:
+      - alert: HighAnomalyScore
+        expr: ai_anomaly_score > 0.9
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High anomaly score detected"
+          description: "Anomaly score is above 0.9 for more than 1 minute."
+
+      - alert: AppDown
+        expr: up{job="simple_app"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Simple app is down"
+          description: "Prometheus target 'simple_app' has been down for 30 seconds."
